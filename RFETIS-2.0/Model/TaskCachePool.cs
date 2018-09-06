@@ -6,12 +6,14 @@ using System.Threading;
 using System.Threading.Tasks;
 using static RFETIS_2._0.Model.TaskCache;
 using System.Configuration;
+using RFETIS_2._0.SIL;
 
 namespace RFETIS_2._0.Model
 {
     public class TaskCachePool
     {
         public Dictionary<int, TaskCache> pool = new Dictionary<int, TaskCache>();
+        private EleTagResponseHandler ResponseHandler;
 
         private int timeout = 15; // seconds
         private bool wlock = false;
@@ -31,6 +33,11 @@ namespace RFETIS_2._0.Model
 
                 }
             }
+        }
+
+        public void setEleTagResponseHandler(EleTagResponseHandler handler)
+        {
+            ResponseHandler += handler;
         }
 
         /// <summary>
@@ -77,6 +84,14 @@ namespace RFETIS_2._0.Model
                         if( pool[id].Active && !pool[id].Exelock )
                         {
                             pool[id].Active = false;
+                            if (pool[id].Type == TaskCacheType.TAKE)
+                            {
+                                ResponseHandler.Invoke(id, EleTagResponseState.TAKE_TIMEOUT, "");
+                            }
+                            else if (pool[id].Type == TaskCacheType.ADD)
+                            {
+                                ResponseHandler.Invoke(id, EleTagResponseState.ADD_TIMEOUT, "");
+                            }
                         }
                     }
                 });
@@ -93,6 +108,7 @@ namespace RFETIS_2._0.Model
                 if(pool[id].Exelock)
                 {
                     pool[id].Active = false;
+                    pool[id].Exelock = false;
                 }
             }
         }

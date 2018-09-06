@@ -56,6 +56,7 @@ namespace RFETIS_2._0.SIL.Impl
         public void setEleTagResponseHandler(EleTagResponseHandler handler)
         {
             ResponseHandler += handler;
+            taskCachePool.setEleTagResponseHandler(handler);
         }
 
         /// <summary>
@@ -236,7 +237,7 @@ namespace RFETIS_2._0.SIL.Impl
         /// <param name="address"></param>
         private void ExecuteTakeAck(int guid, string address)
         {
-            log.Info("ExecuteTakeAck - guid=" + guid + ", address=" + address);
+            log.Info("ExecuteTakeAck - guid=" + guid + ", address=" + address + " ,");
             //1 获取通信地址 -> 验证通信地址
             RequestMessage requestMessage = new RequestMessage();
             requestMessage.Length = 2;
@@ -257,7 +258,7 @@ namespace RFETIS_2._0.SIL.Impl
         /// <param name="address"></param>
         private void ExecuteAddAck(int guid, string address)
         {
-            log.Info("ExecuteAddAck - guid=" + guid + ", address=" + address);
+            log.Info("ExecuteAddAck - guid=" + guid + ", address=" + address.ToString() + " ,");
             //1 获取通信地址 -> 验证通信地址
             RequestMessage requestMessage = new RequestMessage();
             requestMessage.Length = 2;
@@ -473,7 +474,7 @@ namespace RFETIS_2._0.SIL.Impl
                 //1 判断是否为Push Button首次确认
                 if (responseMsg.Length == 6 || new string(responseMsg.Value, 0, 2)=="AD")
                 {
-                    string _shortAddr = new string(responseMsg.Value, 2, 6);
+                    string _shortAddr = new string(responseMsg.Value, 2, 4);
                     ResponseHandler(id, EleTagResponseState.TAKE_ACK, "");
                     ExecuteTakeAck(id, _shortAddr);
                 }
@@ -503,7 +504,7 @@ namespace RFETIS_2._0.SIL.Impl
                 //1 判断是否为Push Button首次确认
                 if (responseMsg.Length == 6 || new string(responseMsg.Value, 0, 2) == "AD")
                 {
-                    string _shortAddr = new string(responseMsg.Value, 2, 6);
+                    string _shortAddr = new string(responseMsg.Value, 2, 4);
                     ResponseHandler(id, EleTagResponseState.ADD_ACK, "");
                     ExecuteAddAck(id, _shortAddr);
                 }
@@ -533,7 +534,7 @@ namespace RFETIS_2._0.SIL.Impl
                 //1 判断是否为Push Button首次确认
                 if (responseMsg.Length == 6 || new string(responseMsg.Value, 0, 2) == "AD")
                 {
-                    string _shortAddr = new string(responseMsg.Value, 2, 6);
+                    string _shortAddr = new string(responseMsg.Value, 2, 4);
                     ResponseHandler(id, EleTagResponseState.NONE, "");
                     ExecuteQueryAck(id, _shortAddr, new Random().Next(1,11));// [1,11)
                 }

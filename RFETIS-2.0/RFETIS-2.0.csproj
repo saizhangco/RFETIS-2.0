@@ -71,6 +71,7 @@
     <Compile Include="SIL\EleTagResponseState.cs" />
     <Compile Include="SIL\EleTagSIL.cs" />
     <Compile Include="SIL\Impl\EleTagSILImpl.cs" />
+    <Compile Include="ViewModel\EleTag.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -122,7 +123,6 @@
     <Folder Include="BLL\" />
     <Folder Include="DAL\" />
     <Folder Include="DataModel\" />
-    <Folder Include="ViewModel\" />
     <Folder Include="View\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

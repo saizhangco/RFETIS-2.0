@@ -136,6 +136,7 @@ namespace RFETIS_2._0.HAL
                 comm.Close();
             }
             comm = null;
+            comm = new SerialPort();
         }
 
         /// <summary>
@@ -144,8 +145,7 @@ namespace RFETIS_2._0.HAL
         /// <returns></returns>
         public bool IsOpen()
         {
-
-            return comm.IsOpen;
+            return comm != null && comm.IsOpen;
         }
 
         private void Comm_DataReceived(object sender, SerialDataReceivedEventArgs e)

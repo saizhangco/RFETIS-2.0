@@ -16,13 +16,15 @@ namespace RFETIS_2._0.SIL
         TAKE_ACK,
         TAKE_COMPLETE,
         TAKE_ACK_ERROR,
+        TAKE_TIMEOUT,
         ADD_CACHE,
         ADD_PING,
         ADD_SHOW,
         ADD_SHOW_ERROR,
         ADD_ACK,
         ADD_COMPLETE,
-        ADD_ACK_ERROR
+        ADD_ACK_ERROR,
+        ADD_TIMEOUT
         //ADDRESS,
         //TAKING,
         //TAKE_QUERY,
