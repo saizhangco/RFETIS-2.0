@@ -1,0 +1,100 @@
+﻿<Window x:Class="RFETIS_2._0.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:RFETIS_2._0"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="600" Width="1024" MinHeight="550" MinWidth="1024" Loaded="Window_Loaded" 
+        >
+    <DockPanel>
+        <Grid DockPanel.Dock="Right" Width="200">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50"></RowDefinition>
+                <RowDefinition Height="50"></RowDefinition>
+                <RowDefinition Height="50"></RowDefinition>
+                <RowDefinition Height="50"></RowDefinition>
+                <RowDefinition Height="50"></RowDefinition>
+                <RowDefinition Height="50"></RowDefinition>
+            </Grid.RowDefinitions>
+            <TextBox Grid.Row="0" Height="40" Width="180" Padding="5" VerticalAlignment="Bottom"></TextBox>
+            <Button Grid.Row="1" Content="Take" Height="40" Padding="5" Width="180" x:Name="btnTakeMedicine"
+                    Click="btnTakeMedicine_Click"></Button>
+            <Button Grid.Row="2" Content="Add" Height="40" Padding="5" Width="180" x:Name="btnAddMedicine"
+                    Click="btnAddMedicine_Click"></Button>
+            <Button Grid.Row="3"></Button>
+            <ComboBox Grid.Row="3" x:Name="cbPortList" Height="40" Padding="5" Width="180"></ComboBox>
+            <Button Grid.Row="4" Content="Open" x:Name="btnOpenSerial" Height="40" Padding="5" Width="180" Click="btnOpenSerial_Click"></Button>
+        </Grid>
+        <DockPanel DockPanel.Dock="Left">
+            <Grid DockPanel.Dock="Top" Height="300">
+                <ListView x:Name="listView" FontSize="16">
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="{x:Type ListViewItem}">
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch"></Setter>
+                        </Style>
+                    </ListView.ItemContainerStyle>
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn x:Name="gvcNumber" Header="编号" Width="160">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding DoctorId}" HorizontalAlignment="Center"></TextBlock>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn x:Name="gvcName" Header="称呼" Width="160">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding DoctorName}" HorizontalAlignment="Left"></TextBlock>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn x:Name="gvcDepartment" Header="科室" Width="160">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Department}" HorizontalAlignment="Left"></TextBlock>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+            </Grid>
+            <Grid DockPanel.Dock="Bottom">
+                <ListView x:Name="listView1" FontSize="16">
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="{x:Type ListViewItem}">
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch"></Setter>
+                        </Style>
+                    </ListView.ItemContainerStyle>
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn x:Name="gvcNumber1" Header="编号" Width="160">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding DoctorId}" HorizontalAlignment="Center"></TextBlock>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn x:Name="gvcName1" Header="称呼" Width="160">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding DoctorName}" HorizontalAlignment="Left"></TextBlock>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn x:Name="gvcDepartment1" Header="科室" Width="160">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Department}" HorizontalAlignment="Left"></TextBlock>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+            </Grid>
+        </DockPanel>
+    </DockPanel>
+</Window>
