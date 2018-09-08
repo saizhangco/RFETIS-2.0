@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RFETIS_2._0.SIL;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -13,6 +14,8 @@ namespace RFETIS_2._0.ViewModel
         public int Id { get; set; }
         public string Name { get; set; }
         public int Amount { get; set; }
+        public EleTagResponseState ResponseState { get; set; }
+
         public string State
         {
             get { return state; }
@@ -27,5 +30,10 @@ namespace RFETIS_2._0.ViewModel
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
+
+        public override string ToString()
+        {
+            return Id + "_" + Name + "_" + Amount;
+        }
     }
 }

@@ -14,5 +14,6 @@ namespace RFETIS_2._0.SCL
         bool write(byte[] data, int start, int length);
         void close();
         void setSerialDataReceivedHandler(SerialDataReceivedHandler handler);
+        bool isOpen();
     }
 }

@@ -17,5 +17,6 @@ namespace RFETIS_2._0.SIL
         bool openSerial(string portName);
         bool openSerial();
         bool closeSerial();
+        bool isSerialOpen();
     }
 }

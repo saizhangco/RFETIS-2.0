@@ -1,5 +1,6 @@
 ﻿using log4net;
 using log4net.Config;
+using RFETIS_2._0.Http;
 using RFETIS_2._0.SIL;
 using RFETIS_2._0.SIL.Impl;
 using RFETIS_2._0.ViewModel;
@@ -7,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -29,16 +31,19 @@ namespace RFETIS_2._0
         {
             InitializeComponent();
             XmlConfigurator.Configure(new System.IO.FileInfo("../../conf/log4net.xml"));
-            initApp();
+            InitApp();
         }
 
         private static readonly ILog log = LogManager.GetLogger(typeof(MainWindow));
         private List<EleTag> eleTagList = new List<EleTag>();
         private EleTagSIL sil = new EleTagSILImpl();
 
-        private void initApp()
+        private void InitApp()
         {
             log.Info("Initial Application");
+
+            ServerHelper helper = new ServerHelper(this);
+            helper.Setup();
 
             eleTagList.Add(new EleTag() { Id = 1, Name = "阿斯匹林", Amount = 50 });
             eleTagList.Add(new EleTag() { Id = 2, Name = "康泰克", Amount = 50 });
@@ -58,16 +63,29 @@ namespace RFETIS_2._0
             listView.ItemsSource = eleTagList;
         }
 
-        private void updateEleTagState(int guid, string state)
+        private void updateEleTagState(int guid, string state, EleTagResponseState responseState)
         {
             foreach( EleTag et in eleTagList )
             {
                 if( guid == et.Id )
                 {
                     et.State = state;
+                    et.ResponseState = responseState;
                     break;
                 }
             }
+        }
+
+        private EleTag getEleTag(int guid)
+        {
+            foreach (EleTag et in eleTagList)
+            {
+                if (guid == et.Id)
+                {
+                    return et;
+                }
+            }
+            return null;
         }
 
         private void EleTagResponseHandler(int guid, EleTagResponseState state, string msg)
@@ -76,52 +94,52 @@ namespace RFETIS_2._0
             switch( state)
             {
                 case EleTagResponseState.TAKE_CACHE:
-                    updateEleTagState(guid, "加入缓存区(取药)");
+                    updateEleTagState(guid, "加入缓存区(取药)", EleTagResponseState.TAKE_CACHE);
                     break;
                 case EleTagResponseState.TAKE_PING:
-                    updateEleTagState(guid, "主动查询");
+                    updateEleTagState(guid, "主动查询", EleTagResponseState.TAKE_PING);
                     break;
                 case EleTagResponseState.TAKE_SHOW:
-                    updateEleTagState(guid, "取药显示");
+                    updateEleTagState(guid, "取药显示", EleTagResponseState.TAKE_SHOW);
                     break;
                 case EleTagResponseState.TAKE_SHOW_ERROR:
-                    updateEleTagState(guid, "取药显示错误");
+                    updateEleTagState(guid, "取药显示错误", EleTagResponseState.TAKE_SHOW_ERROR);
                     break;
                 case EleTagResponseState.TAKE_TIMEOUT:
-                    updateEleTagState(guid, "取药超时");
+                    updateEleTagState(guid, "取药超时", EleTagResponseState.TAKE_TIMEOUT);
                     break;
                 case EleTagResponseState.TAKE_ACK:
-                    updateEleTagState(guid, "取药确认");
+                    updateEleTagState(guid, "取药确认", EleTagResponseState.TAKE_ACK);
                     break;
                 case EleTagResponseState.TAKE_ACK_ERROR:
-                    updateEleTagState(guid, "取药确认失败");
+                    updateEleTagState(guid, "取药确认失败", EleTagResponseState.TAKE_ACK_ERROR);
                     break;
                 case EleTagResponseState.TAKE_COMPLETE:
-                    updateEleTagState(guid, "取药完成");
+                    updateEleTagState(guid, "取药完成", EleTagResponseState.TAKE_COMPLETE);
                     break;
                 case EleTagResponseState.ADD_CACHE:
-                    updateEleTagState(guid, "加入缓存区(补药)");
+                    updateEleTagState(guid, "加入缓存区(补药)", EleTagResponseState.ADD_CACHE);
                     break;
                 case EleTagResponseState.ADD_PING:
-                    updateEleTagState(guid, "主动查询");
+                    updateEleTagState(guid, "主动查询", EleTagResponseState.ADD_PING);
                     break;
                 case EleTagResponseState.ADD_SHOW:
-                    updateEleTagState(guid, "补药显示");
+                    updateEleTagState(guid, "补药显示", EleTagResponseState.ADD_SHOW);
                     break;
                 case EleTagResponseState.ADD_SHOW_ERROR:
-                    updateEleTagState(guid, "补药显示错误");
+                    updateEleTagState(guid, "补药显示错误", EleTagResponseState.ADD_SHOW_ERROR);
                     break;
                 case EleTagResponseState.ADD_TIMEOUT:
-                    updateEleTagState(guid, "补药超时");
+                    updateEleTagState(guid, "补药超时", EleTagResponseState.ADD_TIMEOUT);
                     break;
                 case EleTagResponseState.ADD_ACK:
-                    updateEleTagState(guid, "补药确认");
+                    updateEleTagState(guid, "补药确认", EleTagResponseState.ADD_ACK);
                     break;
                 case EleTagResponseState.ADD_ACK_ERROR:
-                    updateEleTagState(guid, "补药确认失败");
+                    updateEleTagState(guid, "补药确认失败", EleTagResponseState.ADD_ACK_ERROR);
                     break;
                 case EleTagResponseState.ADD_COMPLETE:
-                    updateEleTagState(guid, "补药完成");
+                    updateEleTagState(guid, "补药完成", EleTagResponseState.ADD_COMPLETE);
                     break;
             }
         }
@@ -197,6 +215,105 @@ namespace RFETIS_2._0
                 MessageBox.Show("输入的数量格式错误!!!");
                 return -1;
             }
+        }
+
+        public bool IsOpen()
+        {
+            return sil.isSerialOpen();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="amount"></param>
+        /// <returns>
+        /// 0 成功
+        /// 1
+        /// 2
+        /// 3 TAKE_SHOW_ERROR
+        /// 4 TAKE_TIMEOUT
+        /// 5 OTHER
+        /// </returns>
+        public int ExecuteTakeMedicine(int id, int amount)
+        {
+            int result = sil.cacheTakeMedicine(id, amount);
+            if( result == 0)
+            {
+                for (int i = 0; i < 200; i++)
+                {
+                    EleTag eleTag = getEleTag(id);
+                    if (eleTag != null)
+                    {
+                        EleTagResponseState state = eleTag.ResponseState;
+                        if ( state == EleTagResponseState.TAKE_SHOW
+                            || state == EleTagResponseState.TAKE_ACK
+                            || state == EleTagResponseState.TAKE_COMPLETE
+                            || state == EleTagResponseState.TAKE_ACK_ERROR)
+                        {
+                            return 0;
+                        }
+                        else if( state == EleTagResponseState.TAKE_SHOW_ERROR )
+                        {
+                            return 3;
+                        }
+                        else if( state == EleTagResponseState.TAKE_TIMEOUT )
+                        {
+                            return 4;
+                        }
+                        Thread.Sleep(100);
+                    }
+                }
+                return 5;
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="amount"></param>
+        /// <returns>
+        /// 0 成功
+        /// 1 
+        /// 2
+        /// 3 ADD_SHOW_ERROR
+        /// 4 ADD_TIMEOUT
+        /// 5 OTHER
+        /// </returns>
+        public int ExecuteAddMedicine(int id, int amount)
+        {
+            int result = sil.cacheAddMedicine(id, amount);
+            if (result == 0)
+            {
+                for (int i = 0; i < 200; i++)
+                {
+                    EleTag eleTag = getEleTag(id);
+                    if (eleTag != null)
+                    {
+                        EleTagResponseState state = eleTag.ResponseState;
+                        if (state == EleTagResponseState.ADD_SHOW
+                            || state == EleTagResponseState.ADD_ACK
+                            || state == EleTagResponseState.ADD_COMPLETE
+                            || state == EleTagResponseState.ADD_ACK_ERROR)
+                        {
+                            return 0;
+                        }
+                        else if (state == EleTagResponseState.ADD_SHOW_ERROR)
+                        {
+                            return 3;
+                        }
+                        else if (state == EleTagResponseState.ADD_TIMEOUT)
+                        {
+                            return 4;
+                        }
+                        Thread.Sleep(100);
+                    }
+                }
+                return 5;
+            }
+            return result;
         }
     }
 }

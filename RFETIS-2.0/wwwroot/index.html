@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>RFET Client</title>
+		<script type="text/javascript" src="jquery-3.3.1.js"></script>
+		<script type="text/javascript">
+			function takeMedicine(){
+				var id =    $("#txt_take_id").val();
+				var value = $("#txt_take_value").val();
+				var _data = "{\"Guid\":" + id + ",\"Type\":\"TAKE\",\"Value\":" + value + "}";
+				// alert(_data);
+				// alert(txt_take_id + " " + txt_take_value);
+				$.ajax({
+				    url: 'http://192.168.0.105:8089/task',
+					contentType: 'application/json; charset=UTF-8',
+					method: 'POST',
+					data: _data,
+					success: function(data, status, xhr){
+						$("#txt_take_result").html(data);
+					},
+					error: function(xhr, status, error){
+						$("#txt_take_result").html(error);
+					}
+				});
+				$("#txt_take_result").html("Padding...");
+			}
+			function addMedicine(){
+				var id =    $("#txt_add_id").val();
+				var value = $("#txt_add_value").val();
+				// alert(txt_add_id + " " + txt_add_value);
+				var _data = "{\"Guid\":" + id + ",\"Type\":\"ADD\",\"Value\":" + value + "}";
+				$.ajax({
+				    url: 'http://192.168.0.105:8089/task',
+					contentType: 'application/json; charset=UTF-8',
+					method: 'POST',
+					data: _data,
+					success: function(data, status, xhr){
+						$("#txt_add_result").html(data);
+					},
+					error: function(xhr, status, error){
+						$("#txt_add_result").html(error);
+					}
+				});
+				$("#txt_add_result").html("Padding...");
+			}
+		</script>
+	</head>
+	<body>
+		<h1>It works!</h1>
+		Id:<input id="txt_take_id" type="text" value="1"/>
+		Value:<input id="txt_take_value" type="text" value="10"/>
+		<input type="button" value="TAKE" onclick="takeMedicine()"/>
+		<p id="txt_take_result"></p>
+		<br/><br/>
+		Id:<input id="txt_add_id" type="text" value="1"/>
+		Value:<input id="txt_add_value" type="text" value="12"/>
+		<input type="button" value="ADD" onclick="addMedicine()"/>
+		<p id="txt_add_result"></p>
+		<br/><br/>
+	</body>
+</html>

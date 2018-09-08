@@ -159,6 +159,15 @@ namespace RFETIS_2._0.SIL.Impl
         }
 
         /// <summary>
+        /// 判断串口是否已经打开
+        /// </summary>
+        /// <returns></returns>
+        public bool isSerialOpen()
+        {
+            return serialCom.isOpen();
+        }
+
+        /// <summary>
         /// 补药
         /// </summary>
         /// <param name="guid"></param>

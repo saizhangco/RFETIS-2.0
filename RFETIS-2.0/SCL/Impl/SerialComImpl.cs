@@ -124,5 +124,14 @@ namespace RFETIS_2._0.SCL.Impl
         {
             serialUtil.SerialDataReceived += handler;
         }
+
+        /// <summary>
+        /// 判断串口是否已经打开
+        /// </summary>
+        /// <returns></returns>
+        public bool isOpen()
+        {
+            return serialUtil.IsOpen();
+        }
     }
 }

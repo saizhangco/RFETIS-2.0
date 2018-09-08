@@ -39,6 +39,10 @@
       <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Configuration.Install" />
@@ -63,6 +67,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Http\HttpRequest.cs" />
+    <Compile Include="Http\RequestHelper.cs" />
+    <Compile Include="Http\ResponseHelper.cs" />
+    <Compile Include="Http\ServerHelper.cs" />
+    <Compile Include="Model\EletagInfo.cs" />
     <Compile Include="Model\RequestMessage.cs" />
     <Compile Include="Model\ResponseMessage.cs" />
     <Compile Include="Model\TaskCache.cs" />
@@ -71,6 +80,7 @@
     <Compile Include="SIL\EleTagResponseState.cs" />
     <Compile Include="SIL\EleTagSIL.cs" />
     <Compile Include="SIL\Impl\EleTagSILImpl.cs" />
+    <Compile Include="Utils\ArrayUtils.cs" />
     <Compile Include="ViewModel\EleTag.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
