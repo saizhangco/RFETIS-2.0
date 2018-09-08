@@ -8,40 +8,54 @@
 				var id =    $("#txt_take_id").val();
 				var value = $("#txt_take_value").val();
 				var _data = "{\"Guid\":" + id + ",\"Type\":\"TAKE\",\"Value\":" + value + "}";
-				// alert(_data);
-				// alert(txt_take_id + " " + txt_take_value);
+				$("#txt_take_result").html("Padding...");
 				$.ajax({
 				    url: 'http://192.168.0.105:8089/task',
 					contentType: 'application/json; charset=UTF-8',
 					method: 'POST',
+					dataType: 'json',
 					data: _data,
 					success: function(data, status, xhr){
-						$("#txt_take_result").html(data);
+						if( data.Exception != undefined ){
+							$("#txt_take_result").html(data.Exception);
+						}
+						else if(data.Result != undefined){
+							$("#txt_take_result").html(data.Result);
+						}
+						else{
+							$("#txt_take_result").html(data);
+						}
 					},
 					error: function(xhr, status, error){
 						$("#txt_take_result").html(error);
 					}
 				});
-				$("#txt_take_result").html("Padding...");
 			}
 			function addMedicine(){
 				var id =    $("#txt_add_id").val();
 				var value = $("#txt_add_value").val();
-				// alert(txt_add_id + " " + txt_add_value);
 				var _data = "{\"Guid\":" + id + ",\"Type\":\"ADD\",\"Value\":" + value + "}";
+				$("#txt_add_result").html("Padding...");
 				$.ajax({
 				    url: 'http://192.168.0.105:8089/task',
 					contentType: 'application/json; charset=UTF-8',
 					method: 'POST',
 					data: _data,
 					success: function(data, status, xhr){
-						$("#txt_add_result").html(data);
+						if( data.Exception != undefined ){
+							$("#txt_add_result").html(data.Exception);
+						}
+						else if(data.Result != undefined){
+							$("#txt_add_result").html(data.Result);
+						}
+						else{
+							$("#txt_add_result").html(data);
+						}
 					},
 					error: function(xhr, status, error){
 						$("#txt_add_result").html(error);
 					}
 				});
-				$("#txt_add_result").html("Padding...");
 			}
 		</script>
 	</head>

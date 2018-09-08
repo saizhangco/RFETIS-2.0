@@ -65,16 +65,45 @@ namespace RFETIS_2._0.Http
             {
                 if (httpRequest.Url == "/task")
                 {
+                    bool exception = false;
                     // 解析data
-                    EletagInfo info = JsonConvert.DeserializeObject<EletagInfo>(data);
-                    httpRequest.EntityBody = info;
+                    EletagInfo info = JsonConvert.DeserializeObject<EletagInfo>(data, new JsonSerializerSettings {
+                        Error = delegate (object obj, Newtonsoft.Json.Serialization.ErrorEventArgs args)
+                        {
+                            args.ErrorContext.Handled = true;
+                            exception = true;
+                        }
+                    });
+                    if( exception)
+                    {
+                        httpRequest.EntityBody = null;
+                    }
+                    else
+                    {
+                        httpRequest.EntityBody = info;
+                    }
                     httpRequest.ListBody = null;
                 }
                 else if(httpRequest.Url == "/data")
                 {
+                    bool exception = false;
                     // 解析data
-                    List<EleTag> list = JsonConvert.DeserializeObject<List<EleTag>>(data);
-                    httpRequest.ListBody = list;
+                    List<EleTag> list = JsonConvert.DeserializeObject<List<EleTag>>(data, new JsonSerializerSettings
+                    {
+                        Error = delegate (object obj, Newtonsoft.Json.Serialization.ErrorEventArgs args)
+                        {
+                            args.ErrorContext.Handled = true;
+                            exception = true;
+                        }
+                    });
+                    if (exception)
+                    {
+                        httpRequest.ListBody = null;
+                    }
+                    else
+                    {
+                        httpRequest.ListBody = list;
+                    }
                     httpRequest.EntityBody = null;
                 }
             }

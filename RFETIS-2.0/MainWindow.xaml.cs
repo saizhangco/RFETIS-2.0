@@ -315,5 +315,43 @@ namespace RFETIS_2._0
             }
             return result;
         }
+
+        public void InitEleTagList(List<EleTag> list)
+        {
+            eleTagList.Clear();
+            foreach( EleTag e in list )
+            {
+                eleTagList.Add(new EleTag() { Id=e.Id, Name=e.Name, Amount=e.Amount, ResponseState=EleTagResponseState.NONE, State="" });
+            }
+            Dispatcher.BeginInvoke(new Action(() => { listView.Items.Refresh(); }));
+        }
+
+        public void UpdateEleTagList(List<EleTag> list)
+        {
+            foreach( EleTag e in list )
+            {
+                UpdateEleTag(e);
+            }
+            Dispatcher.BeginInvoke(new Action(() => { listView.Items.Refresh(); }));
+        }
+
+        private void UpdateEleTag( EleTag eleTag )
+        {
+            bool find = false;
+            foreach (EleTag e in eleTagList)
+            {
+                if( e.Id == eleTag.Id )
+                {
+                    e.Name = eleTag.Name;
+                    e.Amount = eleTag.Amount;
+                    find = true;
+                    break;
+                }
+            }
+            if( !find)
+            {
+                eleTagList.Add(new EleTag() { Id = eleTag.Id, Name = eleTag.Name, Amount = eleTag.Amount, ResponseState = EleTagResponseState.NONE, State = "" });
+            }
+        }
     }
 }

@@ -149,6 +149,7 @@ namespace RFETIS_2._0.Http
                     {
                         log.Info("Dispather() -> data=" + ArrayUtils<EleTag>.ToString(httpRequest.ListBody));
                         context.Response.StatusCode = 200;
+                        parent.InitEleTagList(httpRequest.ListBody);    //IMPORTANT
                         ResponseHelper.ResponseToClient(ResultJson("POST " + httpRequest.ListBody.Count + " -> " + ArrayUtils<EleTag>.ToString(httpRequest.ListBody)));
                     }
                 }
@@ -163,6 +164,7 @@ namespace RFETIS_2._0.Http
                     {
                         log.Info("Dispather() -> data=" + ArrayUtils<EleTag>.ToString(httpRequest.ListBody));
                         context.Response.StatusCode = 200;
+                        parent.UpdateEleTagList(httpRequest.ListBody);    //IMPORTANT
                         ResponseHelper.ResponseToClient(ResultJson("PUT " + +httpRequest.ListBody.Count + " -> " + ArrayUtils<EleTag>.ToString(httpRequest.ListBody)));
                     }
                 }
