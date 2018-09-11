@@ -10,7 +10,7 @@
 				var _data = "{\"Guid\":" + id + ",\"Type\":\"TAKE\",\"Value\":" + value + "}";
 				$("#txt_take_result").html("Padding...");
 				$.ajax({
-				    url: 'http://192.168.0.105:8089/task',
+				    url: '/task',
 					contentType: 'application/json; charset=UTF-8',
 					method: 'POST',
 					dataType: 'json',
@@ -37,7 +37,7 @@
 				var _data = "{\"Guid\":" + id + ",\"Type\":\"ADD\",\"Value\":" + value + "}";
 				$("#txt_add_result").html("Padding...");
 				$.ajax({
-				    url: 'http://192.168.0.105:8089/task',
+				    url: '/task',
 					contentType: 'application/json; charset=UTF-8',
 					method: 'POST',
 					data: _data,
