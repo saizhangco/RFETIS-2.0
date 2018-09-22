@@ -499,6 +499,7 @@ namespace RFETIS_2._0.SIL.Impl
                     }
                     else
                     {
+                        log.Info(respResult);
                         //rftaglist[id - Offset - 1].darkenLED(1);
                         //string alertValue = "" + GenericUtil.Generic_ConvertToGuid(id) + " ----> 取药确认[错误:" + respResult + "]\n";
                         //SetRtbStatusConsole(alertValue);
