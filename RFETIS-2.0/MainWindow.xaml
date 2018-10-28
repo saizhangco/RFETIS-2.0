@@ -16,6 +16,7 @@
                 <RowDefinition Height="50"></RowDefinition>
                 <RowDefinition Height="50"></RowDefinition>
                 <RowDefinition Height="50"></RowDefinition>
+                <RowDefinition Height="50"></RowDefinition>
             </Grid.RowDefinitions>
             <TextBox x:Name="tbAmount" Grid.Row="0" Height="40" Width="180" Padding="5" VerticalAlignment="Bottom" FontSize="24"></TextBox>
             <Button Grid.Row="1" Content="Take" Height="40" Padding="5" Width="180" x:Name="btnTakeMedicine"
@@ -26,6 +27,7 @@
             <ComboBox Grid.Row="3" x:Name="cbPortList" Height="40" Padding="5" Width="180" FontSize="24"></ComboBox>
             <Button Grid.Row="4" Content="Open" x:Name="btnOpenSerial" Height="40" Padding="5" Width="180" Click="btnOpenSerial_Click"
                      FontSize="24"></Button>
+            <Button Grid.Row="5" Content="Refresh" x:Name="btnRefresh" Height="40" Padding="5" Width="180" FontSize="24" Click="btnRefresh_Click"></Button>
         </Grid>
         <DockPanel DockPanel.Dock="Left">
             <Grid DockPanel.Dock="Top" Height="300">

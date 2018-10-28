@@ -353,5 +353,15 @@ namespace RFETIS_2._0
                 eleTagList.Add(new EleTag() { Id = eleTag.Id, Name = eleTag.Name, Amount = eleTag.Amount, ResponseState = EleTagResponseState.NONE, State = "" });
             }
         }
+
+        /// <summary>
+        /// 刷新Serial List
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnRefresh_Click(object sender, RoutedEventArgs e)
+        {
+            cbPortList.ItemsSource = sil.getSerialList();
+        }
     }
 }

@@ -387,6 +387,11 @@ namespace RFETIS_2._0.SIL.Impl
             {
                 //在界面上显示心跳
                 string _shortAddr = new string(responseMsg.Value, 0, 4);
+                char powerStatus = responseMsg.Value[4];
+                if(! ( powerStatus == 'T' || powerStatus == 'F') )
+                {
+                    powerStatus = 'U';
+                }
                 //rftaglist[id - Offset - 1].heartBeat(8);
                 //SetRtbStatusConsole("" + GenericUtil.Generic_ConvertToGuid(id) + " ----> 网络地址[" + _shortAddr + "]\n");
                 //SessionArray[id].ShortAddr = _shortAddr;
@@ -404,7 +409,7 @@ namespace RFETIS_2._0.SIL.Impl
                 TaskCache cache = taskCachePool.getTaskCache(id);
                 if( cache != null )
                 {
-                    log.Info("ExecuteResponseMsg - PING - cache exist, id=" + id + ", type=" + cache.Type);
+                    log.Info("ExecuteResponseMsg - PING - cache exist, id=" + id + ", type=" + cache.Type + ", powerStatus=" + powerStatus);
                     switch ( cache.Type )
                     {
                         case TaskCache.TaskCacheType.TAKE:
@@ -419,7 +424,7 @@ namespace RFETIS_2._0.SIL.Impl
                 }
                 else
                 {
-                    log.Info("ExecuteResponseMsg - PING - cache is null, id=" + id);
+                    log.Info("ExecuteResponseMsg - PING - cache is null, id=" + id + ", powerStatus=" + powerStatus);
                 }
 
             }
